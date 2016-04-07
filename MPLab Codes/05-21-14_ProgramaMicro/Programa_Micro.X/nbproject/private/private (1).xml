@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?><project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/1">
+        <file>file:/C:/DSP/Base/05-07-14_ProgramaMicro/Programa_Micro.X/src/main.c</file>
+        <file>file:/C:/DSP/Base/05-07-14_ProgramaMicro/Programa_Micro.X/src/assembly_xdata_init.s</file>
+        <file>file:/C:/DSP/Base/05-07-14_ProgramaMicro/Programa_Micro.X/src/assembly_xdata_init_BitReversed.s</file>
+        <file>file:/C:/DSP/Base/05-07-14_ProgramaMicro/Programa_Micro.X/src/adcdacDrv.c</file>
+        <file>file:/C:/DSP/Base/05-07-14_ProgramaMicro/Programa_Micro.X/src/assembly_distorsion.s</file>
+        <file>file:/C:/DSP/Base/05-07-14_ProgramaMicro/Programa_Micro.X/src/assembly_eco.s</file>
+        <file>file:/C:/DSP/Base/05-07-14_ProgramaMicro/Programa_Micro.X/src/assembly_eco_xdata.s</file>
+        <file>file:/C:/DSP/Base/05-07-14_ProgramaMicro/Programa_Micro.X/src/assembly_loopback.s</file>
+        <file>file:/C:/DSP/Base/05-07-14_ProgramaMicro/Programa_Micro.X/src/assembly_overdrive.s</file>
+        <file>file:/C:/DSP/Base/05-07-14_ProgramaMicro/Programa_Micro.X/src/SPIDrv.c</file>
+        <file>file:/C:/DSP/Base/05-07-14_ProgramaMicro/Programa_Micro.X/src/cero.s</file>
+        <file>file:/C:/DSP/Base/05-07-14_ProgramaMicro/Programa_Micro.X/src/assembly_ruido.s</file>
+        <file>file:/C:/DSP/Base/05-07-14_ProgramaMicro/Programa_Micro.X/src/assembly_puertaruido.s</file>
+        <file>file:/C:/DSP/Base/05-07-14_ProgramaMicro/Programa_Micro.X/src/assembly_overdrivemediaonda.s</file>
+        <file>file:/C:/DSP/Base/05-07-14_ProgramaMicro/Programa_Micro.X/src/assembly_vibrato.s</file>
+        <file>file:/C:/DSP/Base/05-07-14_ProgramaMicro/Programa_Micro.X/src/assembly_loadsine.s</file>
+        <file>file:/C:/DSP/Base/05-07-14_ProgramaMicro/Programa_Micro.X/h/dsp.h</file>
+        <file>file:/C:/DSP/Base/05-07-14_ProgramaMicro/Programa_Micro.X/h/adcdacDrv.h</file>
+    </open-files>
+</project-private>
