@@ -1,0 +1,3 @@
+Para usar bien git, visitar (comandos utiles):
+
+http://orga.cat/posts/most-useful-git-commands
