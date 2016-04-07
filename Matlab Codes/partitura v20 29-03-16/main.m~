@@ -1,0 +1,193 @@
+%% ******** INICIALIZACION ********** %
+    [a, b, c] = fileparts('.') ;
+    clc;
+    clear all;
+    close all;
+    % Asigno a filename (variable) la ruta del audio a analizar
+
+    % Agrego las rutas a usar al Workspace
+    restoredefaultpath;
+    addpath(genpath('../../3- Audio files/'));   % Ruta de funciones auxiliares *.m
+    addpath(genpath('./funciones/'));               % Ruta de funciones auxiliares *.m
+    
+    %filename = 'lldhyem.wav';
+    %filename = 'b_8_k.wav';
+    %filename = 'G_2_8k';
+    %filename = 'jijiji.wav';
+    %filename = 'mas_arriba';
+    %filename = 'aun_ma_rriba.wav';
+    %filename = 'dosYdosOctavasDo.wav';
+    %filename = 'test120nps_22k.wav';
+    %filename = 'test120nps.wav';
+    %filename = 'narananana.wav';
+    %filename = 'Mi major.wav';
+    %filename = 'mop.wav';
+    %filename = 'ac.wav';
+    %filename = 'miMbass.wav';
+    %filename = 'miM2bass.wav';
+    %filename = 'av.wav';
+    %filename = 'armonica.wav';
+    %filename = 'saxo.wav';
+    %filename = '5.wav';
+    filename = 'bajo_2.wav';
+    
+    
+    % carga de archivo
+    [in, fs] = wavread(filename);
+    in = in(:,1);
+    in = resample(in, 22050, fs, 1024);
+    fs = 22050;
+    n=0.025*randn(1,length(in));
+    in=in+n;
+    % Asignacion de valores a las variables intervinientes en funcion de
+    % las caracteristicas del archivo
+    
+    % window_len es cantidad de muestras a analizar (bloque)
+    % salto es el desplazamiento respecto a la primer muestra del bloque
+    % analizado con anterioridad, a partir del cual se comforma el segundo
+    % bloque de analisis
+    if fs == 44100
+        window_len = 2048;  % puede funcionar con 4096 (y salto de 1024)
+    elseif fs == 22050
+        window_len = 512;  % puede funcionar con 4096 (y salto de 1024)
+    else %if fs == 8000
+        window_len = 1024;
+    end
+    
+    
+    in = in(:,1);                           % se toma un solo canal
+    in = in / max(abs(in));                 % escalamiento entre -1 y 1
+    in = Complete_vector(in', window_len)'; % zero padding hasta que el largo de in sea divisible por window_len
+    
+%% ******** DURACION ********** %
+
+    nota = [];                                              % guarda 2, 1 o 0 indicando Ataque, Sustain y Silencio
+    nota_x = [];                                            % guarda las posiciones de los eventos antedichos
+
+    len_deteccion = 2048;
+    k=1;
+    dur_inicio=0;
+    dur_fin=0;
+    in_detect = zeros(len_deteccion, 1);
+    in_detect_x = zeros(1,1);
+    duracion = [];
+    nota_idx = 1;
+    nota_idx_inicio = 1;
+    
+    figure(1);
+
+    plot(in,'r');
+    hold on;
+    
+    %% organizacion de bloques 
+    % para graficos y envio de datos a la funcion de deteccion
+    for i = 0:(length(in)/window_len)-10     
+        clc;
+        aux = dur_prueba_v5(in, i, window_len, 0);   % Algoritmo que estima la duracion (carpeta funciones)
+        if i==0
+            aux = 0;
+        end
+        if (aux == 2) || (aux == 0 && dur_inicio ~= 0)
+            if nota(end) == 2
+                aux = 1;
+            else                
+                if dur_inicio == 0
+                    dur_inicio = (window_len*i);
+                    nota_idx_inicio = nota_idx;
+                else
+                    dur_fin = (window_len*i);
+                    if (dur_fin-dur_inicio) > window_len*2
+                        duracion(k) = (dur_fin-dur_inicio)/fs;
+                        in_detect_x(k) = dur_inicio;
+                        in_detect(:,k) = in(in_detect_x(k):in_detect_x(k)+len_deteccion-1,1);
+                        k = k+1;
+                    else
+                        nota(nota_idx_inicio:nota_idx) = zeros(1, nota_idx-nota_idx_inicio+1);
+                    end
+                    dur_inicio = 0;
+                end
+                if aux == 2
+                    nota(end) = 0;
+                    dur_inicio = (window_len*i);
+                    nota_idx_inicio = nota_idx;
+                end
+            end
+        elseif aux == 1 && nota(end) == 0
+            aux = 0;
+        end
+
+        nota(nota_idx) = aux;                              % Concatenacion de eventos
+        nota_x(nota_idx) = (window_len*i);         % Concatenacion de las posiciones de ocurrencia de los eventos
+        nota_idx = nota_idx + 1;
+
+    end
+
+
+    disp(['fs = ' num2str(fs)]);                            % impresion de frecuencia de muestreo
+      
+    
+    
+%% ******** PLOT DURACION ********** %
+
+    %axis(ax1, [0 window_len*length(nota) -1 2]);
+    %linkaxes([ax1 ax2], 'x');     % Linkea ejes
+
+    %sound(in,fs);
+
+%% ******** SELECCION DE BLOQUES PARA DETECCION DE TONO ******** %
+% La deteccion del tono depende integramente de la estabilidad de la
+% informacion del bloque a analizar queriendose evitar sectores con ataques
+% o decaimiento, el siguiente proceso seleccionara dichos bloques
+% para facilitar la estimacion del tono
+    
+    
+    figure(1);
+
+    hold on;
+
+    plot(nota_x, nota,'b');
+    
+    stem(in_detect_x, ones(length(in_detect_x),1),'g');
+
+    set(gcf,'name',filename,'NumberTitle','off');
+    
+    
+%% ********* DETECTOR ************ %
+[~,n_notas] = size(in_detect);
+
+notasnum = [];
+notasname = [];
+
+
+N = len_deteccion;
+P = nthroot(2,12);  % Relacion de frecuencias de interes
+%P0 = 6.875;         % Frecuencia base en rad/seg
+P0 = 27.5;         % Frecuencia base en rad/seg
+[base, normalizacion] = base_DPDT(N,fs, P0*2*pi, P);
+
+for index=1:n_notas
+    %[notaname,notanum] = FindPitch(in_detect(:,index)',fs,80);
+    [notaname,notanum] = FindPitch_DPDT(in_detect(:,index)',fs,80,base, normalizacion);   % llamado a deteccion de tono (carpeta funciones\Pitch Detection)
+    if notanum > 1
+        notasnum = [notasnum notanum];
+        notasname = char(notasname, notaname);
+    end
+    
+    %waitforbuttonpress;
+end
+
+
+%% ********* Generador de MIDI ************ %
+
+%Generador([filename '.mid'], 4, 4, 120, notasname, 0.5*ones(1, size(notasname)));
+Generador([filename '.mid'], 4, 4, 200, notasname(2:length(duracion)+1, :), duracion);
+
+
+%% ********* FIN ************ %
+
+    disp(' ');  % Deja un ENTER al terminar
+
+
+
+
+

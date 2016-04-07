@@ -1,0 +1,344 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>main</title><meta name="generator" content="MATLAB 8.2"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-06-06"><meta name="DC.source" content="main.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">****** INICIALIZACION ******** %</a></li><li><a href="#2">****** DURACION ******** %</a></li><li><a href="#3">****** PLOT DURACION ******** %</a></li><li><a href="#4">****** SELECCION DE BLOQUES PARA DETECCION DE TONO ****** %</a></li><li><a href="#5">******* DETECTOR ********** %</a></li><li><a href="#6">******* FIN ********** %</a></li></ul></div><h2>****** INICIALIZACION ******** %<a name="1"></a></h2><pre class="codeinput">    clc;
+    clear <span class="string">all</span>;
+    close <span class="string">all</span>;
+    <span class="comment">% Asigno a filename (variable) la ruta del audio a analizar</span>
+
+    <span class="comment">%filename = 'GUITARRA_cut.wav';</span>
+    <span class="comment">%filename = 'evil8k.wav';</span>
+    <span class="comment">%filename = 'test150nps.wav';</span>
+    <span class="comment">%filename = 'b_8_k.wav';</span>
+    filename = <span class="string">'G_2_8k'</span>;
+    <span class="comment">%filename = 'A1.wav';</span>
+    <span class="comment">%filename = 'aun_ma_rriba.wav';</span>
+
+    <span class="comment">% Agrego las rutas a usar al Workspace</span>
+    addpath(<span class="string">'D:\UTN\DPLAB\Grupo_Audio\repositorio_svn - copia\mFunction'</span>); <span class="comment">% Ruta de funciones auxiliares *.m</span>
+    addpath(<span class="string">'./funciones/'</span>); <span class="comment">% Ruta de funciones auxiliares *.m</span>
+    addpath(<span class="string">'C:\Users\Pablo\Desktop\Pitch Detection'</span>);
+    addpath(<span class="string">'C:\Users\Agus\Dropbox\DPLabUTN\Audios algunos\guitarra 24bits 44100Hz'</span>);
+    addpath(<span class="string">'C:\Users\Agus\Dropbox\DPLabUTN\Audios algunos\8K'</span>);
+    addpath(<span class="string">'C:\Users\Agus\Dropbox\DPLabUTN\Audios algunos\guitarra 24bits 44100Hz\a 8 k'</span>);
+    addpath(<span class="string">'C:\Users\Agus\Dropbox\DPLabUTN\partitura v14 05-06-15\funciones\funciones auxiliares'</span>);
+    addpath(<span class="string">'C:\Users\Agus\Dropbox\DPLabUTN\partitura v14 05-06-15\funciones\Pitch Detection'</span>);
+    addpath(<span class="string">'C:\Users\Agus\Dropbox\DPLabUTN\Audios algunos'</span>);
+
+    <span class="comment">% carga de archivo</span>
+    [in, fs] = wavread(filename);
+
+    <span class="comment">% Asignacion de valores a las variables intervinientes en funcion de</span>
+    <span class="comment">% las caracteristicas del archivo</span>
+
+    <span class="comment">% window_len es cantidad de muestras a analizar (bloque)</span>
+    <span class="comment">% salto es el desplazamiento respecto a la primer muestra del bloque</span>
+    <span class="comment">% analizado con anterioridad, a partir del cual se comforma el segundo</span>
+    <span class="comment">% bloque de analisis</span>
+    <span class="keyword">if</span> fs == 44100
+        window_len = 2048;  <span class="comment">% puede funcionar con 4096 (y salto de 1024)</span>
+        salto = 512;        <span class="comment">% puede funcionar con 1024 (y w_len de 4096)</span>
+    <span class="keyword">elseif</span> fs == 22050
+        window_len = 1024;  <span class="comment">% puede funcionar con 4096 (y salto de 1024)</span>
+        salto = 256;        <span class="comment">% puede funcionar con 1024 (y w_len de 4096)</span>
+    <span class="keyword">else</span> <span class="comment">%if fs == 8000</span>
+        window_len = 1024;
+        salto = 256;
+    <span class="keyword">end</span>
+
+
+    in = in(:,1);                           <span class="comment">% se toma un solo canal</span>
+    in = in / max(abs(in));                 <span class="comment">% escalamiento entre -1 y 1</span>
+    in = Complete_vector(in', window_len)'; <span class="comment">% zero padding hasta que el largo de in sea divisible por window_len</span>
+</pre><pre class="codeoutput">Warning: Directory permission denied: D:\UTN\DPLAB\Grupo_Audio\repositorio_svn -
+copia\mFunction 
+Warning: Name is nonexistent or not a directory: C:\Users\Pablo\Desktop\Pitch
+Detection 
+</pre><h2>****** DURACION ******** %<a name="2"></a></h2><pre class="codeinput">    nota = [];                                              <span class="comment">% guarda 2, 1 o 0 indicando Ataque, Sustain y Silencio</span>
+    nota_x = [];                                            <span class="comment">% guarda las posiciones de los eventos antedichos</span>
+
+    <span class="keyword">for</span> i = 0:(length(in)/window_len)-10
+        <span class="keyword">for</span> j = 0:salto:window_len-salto
+            clc;
+            aux = dur_prueba_v2(in,i,j,window_len,fs, 0);   <span class="comment">% Algoritmo que estima la duracion (carpeta funciones)</span>
+            nota = [nota aux];                              <span class="comment">% Concatenacion de eventos</span>
+            nota_x = [nota_x (window_len*i)+j+512];         <span class="comment">% Concatenacion de las posiciones de ocurrencia de los eventos</span>
+        <span class="keyword">end</span>
+
+        <span class="comment">%waitforbuttonpress;</span>
+    <span class="keyword">end</span>
+
+
+    disp([<span class="string">'fs = '</span> num2str(fs)]);                            <span class="comment">% impresion de frecuencia de muestreo</span>
+</pre><pre class="codeoutput">fs = 8000
+</pre><h2>****** PLOT DURACION ******** %<a name="3"></a></h2><pre class="codeinput">    nota = opt_dur(nota);  <span class="comment">% Optimiza duracion (carpeta funciones)</span>
+
+    figure(1);
+
+    hold <span class="string">off</span>;
+    plot(in,<span class="string">'r'</span>);
+    hold <span class="string">on</span>;
+
+    plot(nota_x, nota,<span class="string">'b'</span>);
+
+    set(gcf,<span class="string">'name'</span>,filename,<span class="string">'NumberTitle'</span>,<span class="string">'off'</span>);
+
+    <span class="comment">%axis(ax1, [0 window_len*length(nota) -1 2]);</span>
+    <span class="comment">%linkaxes([ax1 ax2], 'x');     % Linkea ejes</span>
+
+    <span class="comment">%sound(in,fs);</span>
+</pre><img vspace="5" hspace="5" src="main_01.png" alt=""> <h2>****** SELECCION DE BLOQUES PARA DETECCION DE TONO ****** %<a name="4"></a></h2><p>La deteccion del tono depende integramente de la estabilidad de la informacion del bloque a analizar queriendose evitar sectores con ataques o decaimiento, el siguiente proceso seleccionara dichos bloques para facilitar la estimacion del tono</p><pre class="codeinput">    f_empieza = 0;
+    f_yadetecte = 0;
+    tam_detect = 2048 / salto;
+    j = 1;
+    in_detect = zeros(2048, length(nota));
+    in_detect_x = zeros(length(nota),1);
+    <span class="keyword">for</span> i = 1:length(nota)
+
+        <span class="keyword">if</span> nota(i) == 2
+            in_detect_x(j) = nota_x(i); <span class="comment">% Posicion de inicio de la nota</span>
+        <span class="keyword">elseif</span> nota(i) == 0
+            <span class="keyword">if</span> in_detect_x(j) &gt; 0
+                lim = nota_x(i); <span class="comment">% Posicion de inicio de la nota</span>
+
+                lim = lim - in_detect_x(j) - 2048;
+                lim = lim*(1/2);
+                in_detect_x(j) = in_detect_x(j)+lim;
+                in_detect(:,j) = in(in_detect_x(j):in_detect_x(j)+2048-1,1);
+                j = j+1;
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+
+    <span class="keyword">end</span>
+
+    stem(in_detect_x, ones(length(in_detect_x),1),<span class="string">'g'</span>);
+</pre><img vspace="5" hspace="5" src="main_02.png" alt=""> <h2>******* DETECTOR ********** %<a name="5"></a></h2><pre class="codeinput">[~,n_notas] = size(in_detect);
+
+<span class="keyword">for</span> index=1:n_notas
+    FindPitch(in_detect(:,index)',fs,80);   <span class="comment">% llamado a deteccion de tono (carpeta funciones\Pitch Detection)</span>
+
+
+    waitforbuttonpress;
+
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">nota = fa_3
+frecuencia = 173.8281
+</pre><pre class="codeoutput">Error using waitforbuttonpress
+Interrupted
+
+Error in main (line 131)
+    waitforbuttonpress;
+</pre><h2>******* FIN ********** %<a name="6"></a></h2><pre class="codeinput">    disp(<span class="string">' '</span>);  <span class="comment">% Deja un ENTER al terminar</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2013b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% ******** INICIALIZACION ********** %
+    
+    clc;
+    clear all;
+    close all;
+    % Asigno a filename (variable) la ruta del audio a analizar
+    
+    %filename = 'GUITARRA_cut.wav';
+    %filename = 'evil8k.wav';
+    %filename = 'test150nps.wav';
+    %filename = 'b_8_k.wav';
+    filename = 'G_2_8k';
+    %filename = 'A1.wav';
+    %filename = 'aun_ma_rriba.wav';
+    
+    % Agrego las rutas a usar al Workspace
+    addpath('D:\UTN\DPLAB\Grupo_Audio\repositorio_svn - copia\mFunction'); % Ruta de funciones auxiliares *.m
+    addpath('./funciones/'); % Ruta de funciones auxiliares *.m
+    addpath('C:\Users\Pablo\Desktop\Pitch Detection');
+    addpath('C:\Users\Agus\Dropbox\DPLabUTN\Audios algunos\guitarra 24bits 44100Hz');
+    addpath('C:\Users\Agus\Dropbox\DPLabUTN\Audios algunos\8K');
+    addpath('C:\Users\Agus\Dropbox\DPLabUTN\Audios algunos\guitarra 24bits 44100Hz\a 8 k');
+    addpath('C:\Users\Agus\Dropbox\DPLabUTN\partitura v14 05-06-15\funciones\funciones auxiliares');
+    addpath('C:\Users\Agus\Dropbox\DPLabUTN\partitura v14 05-06-15\funciones\Pitch Detection');
+    addpath('C:\Users\Agus\Dropbox\DPLabUTN\Audios algunos');
+    
+    % carga de archivo
+    [in, fs] = wavread(filename);
+    
+    % Asignacion de valores a las variables intervinientes en funcion de
+    % las caracteristicas del archivo
+    
+    % window_len es cantidad de muestras a analizar (bloque)
+    % salto es el desplazamiento respecto a la primer muestra del bloque
+    % analizado con anterioridad, a partir del cual se comforma el segundo
+    % bloque de analisis
+    if fs == 44100
+        window_len = 2048;  % puede funcionar con 4096 (y salto de 1024)
+        salto = 512;        % puede funcionar con 1024 (y w_len de 4096)
+    elseif fs == 22050
+        window_len = 1024;  % puede funcionar con 4096 (y salto de 1024)
+        salto = 256;        % puede funcionar con 1024 (y w_len de 4096)
+    else %if fs == 8000
+        window_len = 1024;
+        salto = 256;
+    end
+    
+    
+    in = in(:,1);                           % se toma un solo canal
+    in = in / max(abs(in));                 % escalamiento entre -1 y 1
+    in = Complete_vector(in', window_len)'; % zero padding hasta que el largo de in sea divisible por window_len
+    
+%% ******** DURACION ********** %
+
+    nota = [];                                              % guarda 2, 1 o 0 indicando Ataque, Sustain y Silencio
+    nota_x = [];                                            % guarda las posiciones de los eventos antedichos
+
+    for i = 0:(length(in)/window_len)-10                 
+        for j = 0:salto:window_len-salto
+            clc;
+            aux = dur_prueba_v2(in,i,j,window_len,fs, 0);   % Algoritmo que estima la duracion (carpeta funciones)
+            nota = [nota aux];                              % Concatenacion de eventos
+            nota_x = [nota_x (window_len*i)+j+512];         % Concatenacion de las posiciones de ocurrencia de los eventos
+        end
+
+        %waitforbuttonpress;
+    end
+
+
+    disp(['fs = ' num2str(fs)]);                            % impresion de frecuencia de muestreo
+
+    
+%% ******** PLOT DURACION ********** %
+
+    nota = opt_dur(nota);  % Optimiza duracion (carpeta funciones)
+
+    figure(1);
+
+    hold off;
+    plot(in,'r');
+    hold on;
+
+    plot(nota_x, nota,'b');
+
+    set(gcf,'name',filename,'NumberTitle','off');
+
+    %axis(ax1, [0 window_len*length(nota) -1 2]);
+    %linkaxes([ax1 ax2], 'x');     % Linkea ejes
+
+    %sound(in,fs);
+
+%% ******** SELECCION DE BLOQUES PARA DETECCION DE TONO ******** %
+% La deteccion del tono depende integramente de la estabilidad de la
+% informacion del bloque a analizar queriendose evitar sectores con ataques
+% o decaimiento, el siguiente proceso seleccionara dichos bloques
+% para facilitar la estimacion del tono
+
+    f_empieza = 0;
+    f_yadetecte = 0;
+    tam_detect = 2048 / salto;
+    j = 1;
+    in_detect = zeros(2048, length(nota));
+    in_detect_x = zeros(length(nota),1);
+    for i = 1:length(nota)
+        
+        if nota(i) == 2
+            in_detect_x(j) = nota_x(i); % Posicion de inicio de la nota
+        elseif nota(i) == 0
+            if in_detect_x(j) > 0
+                lim = nota_x(i); % Posicion de inicio de la nota
+
+                lim = lim - in_detect_x(j) - 2048;
+                lim = lim*(1/2);
+                in_detect_x(j) = in_detect_x(j)+lim;
+                in_detect(:,j) = in(in_detect_x(j):in_detect_x(j)+2048-1,1);
+                j = j+1;
+            end
+        end
+        
+    end
+    
+    stem(in_detect_x, ones(length(in_detect_x),1),'g');
+    
+%% ********* DETECTOR ************ %
+[~,n_notas] = size(in_detect);
+
+for index=1:n_notas
+    FindPitch(in_detect(:,index)',fs,80);   % llamado a deteccion de tono (carpeta funciones\Pitch Detection)
+    
+    
+    waitforbuttonpress;
+
+end
+
+
+
+%% ********* FIN ************ %
+
+    disp(' ');  % Deja un ENTER al terminar
+
+
+
+
+
+
+##### SOURCE END #####
+--></body></html>

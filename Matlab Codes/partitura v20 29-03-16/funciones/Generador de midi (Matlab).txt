@@ -1,0 +1,16 @@
+function Generador(filename, compas_numerador, compas_denominador, tempo, nota, duracion)
+
+filename: 		Nombre del archivo midi. Se ingresa como string entre comillas simples. Ej: filename = 'partitura.mid';
+compas_numerador: 	Numerador de la fracción del compás. Se ingresa un número entero. Ej: compas_numerador = 3;
+compas_denominador: 	Denominador de la fracción del compás. Se ingresa un número entero. Ej: compas_denominador = 4;
+tempo: 			Tempo en BPM. Se ingresa un número reacional. Ej: tempo = 117.5;
+nota:			Notas como strings. Se ingresa un vector de nx4, con n = cantidad de notas. Ej: nota = char('none', 'si_2', 'do#3', 'none', 're_4'); % 'none' = silencio
+duracion:		Duracion de las notas en milisegundos como número racional. Se ingresa un vector de 1xn, con n = cantidad de notas. Ej: duracion = [1.28 0.064 0.32 0.256 0.192];
+
+
+
+
+Utiliza las siguientes funciones auxiliares:
+
+	function [duracion_efectiva] = figura(tempo, duracion)
+	function out = notas_to_midi(notas)
