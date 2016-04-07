@@ -1,3 +1,6 @@
 Para usar bien git, visitar (comandos utiles):
 
 http://orga.cat/posts/most-useful-git-commands
+
+Tutorial (Español):
+http://blog.santiagobasulto.com.ar/programacion/2011/11/27/tutorial-de-git-en-espanol.html
